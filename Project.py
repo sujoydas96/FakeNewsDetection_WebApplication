@@ -1,4 +1,7 @@
 from bs4 import BeautifulSoup
+from wordcloud import WordCloud, STOPWORDS
+import matplotlib.pyplot as plt
+import pandas as pd
 import requests
 import re
 from nltk.corpus import stopwords
@@ -24,7 +27,10 @@ class Backend:
         self.__sentences = list()
         self.__corpus = str()
         self.__corpus_list = list()
-        self.__score = 0
+        self.__score = 0                     #score
+        self.__SentenceList = list()         #list of list of sentences of the individual corpuses
+        self.Answer = bool()                 #true or fake news
+        self.testing = list()
   
     def Search(self, Phrase):
         self.__Phrase = Phrase
@@ -38,8 +44,10 @@ class Backend:
 
     def Clear_Score(self):
         self.__score = 0
+        self.Answer = 0
 
     def Process(self):
+        self.Clear_Score()
         for i in range(len(self.__results)):
             URL = self.__results[i]
             try:
@@ -50,17 +58,18 @@ class Backend:
                 self.__corpus_list.append(self.__corpus)
             except:
                 continue
-            
-        
+    
+        word = nltk.word_tokenize(self.__Phrase)
         for i in range(len(self.__corpus_list)):
-            print(self.__corpus_list[i])  
-            print("\n#########################")                                         #testing only and remove from main code
+            self.__split_into_sentences(self.__corpus_list[i],1)                                    #splitting into sentences
+            self.__SentenceList.append(self.__sentences)
+            self.__checking(self.__sentences,word)
 
-        #self.__split_into_sentences(self.__corpus,1)                                    #splitting into sentences
-        #self.__checking(self.__sentences, nltk.word_tokenize(self.__Phrase))            #tokenize the words, the program checks for phrases in the corpus
-       
-        #removable code
-
+        if (self.__score > int((len(self.__SentenceList)/5))):
+            return 1
+        #removable code the quick brown fox jumps over the lazy dog
+         
+        
         #removable code
 
     def __split_into_sentences(self,text,choice=1):
@@ -94,8 +103,9 @@ class Backend:
             pass 
 
     def __checking(self,sentence,words):
-        res = [all([k in s for k in words]) for s in sentence]
-        self.__score = self.__score + 1
+        res = [all([k in s for k in words]) for s in sentence] 
+        if len([sentence[i] for i in range(0, len(res)) if res[i]]) >= 1:
+            self.__score = self.__score + 1
         return [sentence[i] for i in range(0, len(res)) if res[i]]
 
     def __remove_sentence_punctuation(self, sentences):
@@ -108,4 +118,7 @@ class Backend:
 obj = Backend()
 inp = str(input("Type in Headline... "))
 obj.Search(inp)
-obj.Process()
+if obj.Process() == 1:
+    print("\nTrue News")
+else:
+    print("\nFake News")
