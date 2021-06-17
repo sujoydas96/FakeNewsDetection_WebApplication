@@ -1,3 +1,4 @@
+from itertools import count
 from bs4 import BeautifulSoup
 from wordcloud import WordCloud, STOPWORDS
 import matplotlib.pyplot as plt
@@ -5,7 +6,11 @@ import pandas as pd
 import requests
 import re
 from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
 import nltk
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 try:
     from googlesearch import search
@@ -23,7 +28,7 @@ class Backend:
     def __init__(self):
         self.__results = list()
         self.__Phrase = str()
-        self.__Length = int()
+        self.__matrix_list = list()
         self.__sentences = list()
         self.__corpus = str()
         self.__corpus_list = list()
@@ -66,11 +71,31 @@ class Backend:
             self.__checking(self.__sentences,word)
 
         if (self.__score > int((len(self.__SentenceList)/5))):
-            return 1
-        #removable code the quick brown fox jumps over the lazy dog
-         
-        
-        #removable code
+            #return 1
+            pass
+           
+        #Text Cleaning
+        nltk.download('punkt')
+        nltk.download('wordnet')
+        stop_words = stopwords.words('english')
+        lemmatizer=WordNetLemmatizer()
+        filter_sentence = ''
+        tfidf = TfidfTransformer(norm="l2")
+        count_vectorizer = CountVectorizer()
+
+        for i in range(len(self.__corpus_list)):
+            self.__corpus_list[i] = nltk.word_tokenize(self.__corpus_list[i])      #Tokenisation
+            self.__corpus_list[i] = [w for w in self.__corpus_list[i] if not w in stop_words]        #removal of stopwords
+
+            for word in self.__corpus_list[i]:
+                filter_sentence = filter_sentence + ' ' + str(lemmatizer.lemmatize(word)).lower()      #lemmatization
+        #NLP Techniques
+            count_vectorizer.fit_transform(self.__corpus_list[i])     
+            self.__matrix_list.append(count_vectorizer.transform(self.__corpus_list[i]))
+            tfidf.fit(self.__matrix_list[i])
+            self.__matrix_list[i] = tfidf.transform(self.__matrix_list[i])
+
+
 
     def __split_into_sentences(self,text,choice=1):
         text = " " + text + "  "
