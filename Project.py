@@ -71,8 +71,7 @@ class Backend:
             self.__checking(self.__sentences,word)
 
         if (self.__score > int((len(self.__SentenceList)/5))):
-            #return 1
-            pass
+            return 1
            
         #Text Cleaning
         nltk.download('punkt')
