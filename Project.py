@@ -1,15 +1,10 @@
-from itertools import count
 from bs4 import BeautifulSoup
-from wordcloud import WordCloud, STOPWORDS
-import matplotlib.pyplot as plt
-import pandas as pd
+import math
 import requests
 import re
-from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+from nltk.corpus import stopwords
 import nltk
-from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 try:
@@ -28,7 +23,6 @@ class Backend:
     def __init__(self):
         self.__results = list()
         self.__Phrase = str()
-        self.__matrix_list = list()
         self.__sentences = list()
         self.__corpus = str()
         self.__corpus_list = list()
@@ -36,6 +30,7 @@ class Backend:
         self.__SentenceList = list()         #list of list of sentences of the individual corpuses
         self.Answer = bool()                 #true or fake news
         self.testing = list()
+        self.__score_matrix = list()
   
     def Search(self, Phrase):
         self.__Phrase = Phrase
@@ -72,29 +67,49 @@ class Backend:
 
         if (self.__score > int((len(self.__SentenceList)/5))):
             return 1
-           
-        #Text Cleaning
-        nltk.download('punkt')
-        nltk.download('wordnet')
-        stop_words = stopwords.words('english')
-        lemmatizer=WordNetLemmatizer()
-        filter_sentence = ''
-        tfidf = TfidfTransformer(norm="l2")
-        count_vectorizer = CountVectorizer()
 
         for i in range(len(self.__corpus_list)):
-            self.__corpus_list[i] = nltk.word_tokenize(self.__corpus_list[i])      #Tokenisation
-            self.__corpus_list[i] = [w for w in self.__corpus_list[i] if not w in stop_words]        #removal of stopwords
+            self.__corpus_list[i] = self.__punctuation_REM(self.__corpus_list[i])
+        
+        length = int(math.ceil(len(self.__corpus_list)/2))
+        temporary_matrix = list()
+        
+        for i in range(length):
+            for j in range(length):
+                if i != j:
+                    temporary_matrix.append(self.__cosine_sim(self.__corpus_list[i],self.__corpus_list[j]))
+                else:
+                    continue
+            self.__score_matrix.append(temporary_matrix)
+            temporary_matrix = []  
 
-            for word in self.__corpus_list[i]:
-                filter_sentence = filter_sentence + ' ' + str(lemmatizer.lemmatize(word)).lower()      #lemmatization
-        #NLP Techniques
-            count_vectorizer.fit_transform(self.__corpus_list[i])     
-            self.__matrix_list.append(count_vectorizer.transform(self.__corpus_list[i]))
-            tfidf.fit(self.__matrix_list[i])
-            self.__matrix_list[i] = tfidf.transform(self.__matrix_list[i])
+        __avg = 0
+        for i in range(length):
+            for j in range(length-1):
+                __avg = __avg + self.__score_matrix[i][j]
+        __avg = float(__avg/(length*(length-1)))*100
+        print(__avg)
+        if int(__avg) < 97.5:
+            return 0
+        else:
+            return 1
+        
+    def __cosine_sim(self,text1, text2):
+        vectorizer = TfidfVectorizer(tokenizer=self.__normalise)
+        tfidf = vectorizer.fit_transform([text1, text2])
+        return ((tfidf * tfidf.T).A)[0,1]
+    
+    def __normalise(self,corpus):
+        stop_words = stopwords.words('english')
+        corpus = self.__Lemmatize(nltk.word_tokenize(corpus))
+        return [w for w in corpus if not w in stop_words]  
 
-
+    def __Lemmatize(self,words):
+        lemmatizer=WordNetLemmatizer()
+        filter_sentence = ''
+        for word in words:
+            filter_sentence = filter_sentence + ' ' + str(lemmatizer.lemmatize(word)).lower()
+        return filter_sentence
 
     def __split_into_sentences(self,text,choice=1):
         text = " " + text + "  "
@@ -138,6 +153,11 @@ class Backend:
         for i in self.__sentences:
             self.__sentences[j] = re.sub(r'[^\w\s]','',i)
             j = j + 1
+
+    def __punctuation_REM(self,corpus):
+        corpus = re.sub(r'[^\w\s]',' ',corpus)
+        corpus = re.sub(r'[\s\s+]' , ' ', corpus)
+        return corpus
 
 obj = Backend()
 inp = str(input("Type in Headline... "))
