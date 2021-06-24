@@ -89,7 +89,7 @@ class Backend:
                 __avg = __avg + self.__score_matrix[i][j]
         __avg = float(__avg/(length*(length-1)))*100
         print(__avg)
-        if int(__avg) < 97.5:
+        if int(__avg*1000) < 98250:
             return 0
         else:
             return 1
