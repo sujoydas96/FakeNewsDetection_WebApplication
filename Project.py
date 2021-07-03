@@ -31,6 +31,7 @@ class Backend:
         self.Answer = bool()                 #true or fake news
         self.testing = list()
         self.__score_matrix = list()
+        self.__elim = list()
   
     def Search(self, Phrase):
         self.__Phrase = Phrase
@@ -53,7 +54,7 @@ class Backend:
             try:
                 r = requests.get(URL) 
                 soup = BeautifulSoup(r.content, 'html.parser') 
-                self.__corpus = str(soup.get_text())   #collecting textual data from websites
+                self.__corpus = str(soup.get_text())                                            #collecting textual data from websites
                 self.__corpus = " ".join(self.__corpus.split())
                 self.__corpus_list.append(self.__corpus)
             except:
@@ -68,9 +69,14 @@ class Backend:
         if (self.__score > int((len(self.__SentenceList)/5))):
             return 1
 
-        for i in range(len(self.__corpus_list)):
+        for i in range(len(self.__corpus_list)):                                                 #removal of punctuation and blocked URLs
             self.__corpus_list[i] = self.__punctuation_REM(self.__corpus_list[i])
+            if len(str(self.__corpus_list[i])) <= 25:
+                self.__elim.append(i)
         
+        for i in self.__elim:
+            self.__corpus_list.remove(self.__corpus_list[i])
+
         length = int(math.ceil(len(self.__corpus_list)/2))
         temporary_matrix = list()
         
