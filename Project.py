@@ -89,6 +89,9 @@ class Backend:
             self.__score_matrix.append(temporary_matrix)
             temporary_matrix = []  
 
+        ###########################################
+        print(self.__SentenceList[0])
+
         __avg = 0
         for i in range(length):
             for j in range(length-1):
