@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.5.11)  5 JUL 2021 13:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.2) (preloaded format=pdflatex 2021.5.11)  22 JUL 2021 15:49
 entering extended mode
 **./Report.tex
 (Report.tex
@@ -6,8 +6,8 @@ LaTeX2e <2020-10-01> patch level 4
 L3 programming layer <2021-02-18> xparse <2020-03-03>
 (C:\Users\Sujoy\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
 Document Class: article 2020/04/10 v1.4m Standard LaTeX document class
-(C:\Users\Sujoy\AppData\Local\Programs\MiKTeX\tex/latex/base\size10.clo
-File: size10.clo 2020/04/10 v1.4m Standard LaTeX file (size option)
+(C:\Users\Sujoy\AppData\Local\Programs\MiKTeX\tex/latex/base\size12.clo
+File: size12.clo 2020/04/10 v1.4m Standard LaTeX file (size option)
 )
 \c@part=\count179
 \c@section=\count180
@@ -124,12 +124,12 @@ LaTeX Font Info:    ... okay on input line 7.
 * \topmargin=-18.9325pt
 * \headheight=12.0pt
 * \headsep=25.0pt
-* \topskip=10.0pt
+* \topskip=12.0pt
 * \footskip=30.0pt
-* \marginparwidth=57.0pt
-* \marginparsep=11.0pt
+* \marginparwidth=35.0pt
+* \marginparsep=10.0pt
 * \columnsep=10.0pt
-* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
 * \hoffset=0.0pt
 * \voffset=0.0pt
 * \mag=1000
@@ -162,11 +162,9 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
 )
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 20.
+(Font)              <14.4> on input line 20.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 20.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 20.
+(Font)              <7> on input line 20.
 <CIT_Logo.png, id=1, 255.1131pt x 329.5512pt>
 File: CIT_Logo.png Graphic file (type png)
 <use CIT_Logo.png>
@@ -175,38 +173,33 @@ Package pdftex.def Info: CIT_Logo.png  used on input line 31.
  [1
 
 {C:/Users/Sujoy/AppData/Local/MiKTeX/pdftex/config/pdftex.map} <./CIT_Logo.png>
-] [2] [3] [4] (Report.toc)
+] (Report.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 4.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 4.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 4.
+)
 \tf@toc=\write3
 \openout3 = `Report.toc'.
 
- [5]
-Underfull \hbox (badness 10000) in paragraph at lines 71--72
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 73--74
-
- []
-
-[6] (Report.aux) ) 
+ [2] [3] (Report.aux) ) 
 Here is how much of TeX's memory you used:
- 1885 strings out of 479334
- 28391 string characters out of 2857084
- 326112 words of memory out of 3000000
- 19357 multiletter control sequences out of 15000+200000
- 408309 words of font info for 43 fonts, out of 3000000 for 9000
+ 1889 strings out of 479334
+ 28472 string characters out of 2857084
+ 329143 words of memory out of 3000000
+ 19361 multiletter control sequences out of 15000+200000
+ 409222 words of font info for 46 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 68i,6n,74p,1345b,316s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/Sujoy/AppData/Local/Programs/MiKTeX/fonts/type1/pub
-lic/amsfonts/cm/cmbx10.pfb><C:/Users/Sujoy/AppData/Local/Programs/MiKTeX/fonts/
-type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Sujoy/AppData/Local/Programs/MiKT
-eX/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Users/Sujoy/AppData/Local/Progr
-ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Sujoy/AppData/Loc
-al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb>
-Output written on Report.pdf (6 pages, 363391 bytes).
+ 68i,6n,74p,206b,318s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/Sujoy/AppData/Local/Programs/MiKTeX/fonts/type
+1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Sujoy/AppData/Local/Programs/MiKTeX/f
+onts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Sujoy/AppData/Local/Programs
+/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb>
+Output written on Report.pdf (3 pages, 338818 bytes).
 PDF statistics:
- 44 PDF objects out of 1000 (max. 8388607)
+ 27 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
