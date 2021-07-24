@@ -1,5 +1,8 @@
+from tkinter.constants import END
 from bs4 import BeautifulSoup
 import math
+import tkinter as tk
+from threading import *
 import requests
 import re
 from nltk.stem import WordNetLemmatizer
@@ -165,10 +168,80 @@ class Backend:
         corpus = re.sub(r'[\s\s+]' , ' ', corpus)
         return corpus
 
-obj = Backend()
-inp = str(input("Type in Headline... "))
-obj.Search(inp)
-if obj.Process() == 1:
-    print("\nTrue News")
-else:
-    print("\nFake News")
+News = ''
+def clr():
+    global News
+    News = ''
+    text_entry.delete("1.0","end")
+    Ans.config(text=News)
+    state_window.config(text = '', bg='white')
+
+def threading():
+    # Call work function
+    Thread1=Thread(target=result)
+    Thread1.start()
+
+def result():
+    global News
+    phrase = text_entry.get('1.0',END)
+    print('Processing')
+    state_window.config(text = 'Processing', bg = 'tomato')
+    obj = Backend()
+    obj.Search(phrase)
+    if obj.Process() == 1:
+        News = 'True News'
+    else:
+        News = 'False News'
+    print('processed')
+    Ans.config(text = News)
+    state_window.config(text = 'Processed',bg = 'green')
+
+window = tk.Tk()
+
+#gui.iconbitmap(r'commitment.ico')
+
+window.title('Fake News Zapper')
+window.geometry("800x700")
+window.state("zoomed")
+window.iconbitmap(r'thunder.ico')
+
+lbl1=tk.Label(window, text ='Fake News Detection', fg='Black', font=("Helvetica",20))
+lbl1.place(relx=0.4,rely=0.05) 
+
+lbl2 = tk.Label(window, text = 'Type In Headline', fg='green',font=("Helvetica",16))
+lbl2.place(relx=0.25,rely=0.10, relwidth=0.5, relheight=0.1) 
+
+lbl3 = tk.Label(window, text = 'Text', fg='green',font=("Helvetica",12))
+lbl3.place(relx=0.25,rely=0.17, relwidth=0.5, relheight=0.05) 
+
+text_entry = tk.Text(window, width=155, bg = 'coral')
+text_entry.place(relx=0.05,rely=0.22, relheight=0.2)
+
+lbl = tk.Label(window, text = 'Status', fg='green',font=("Helvetica",12))
+lbl.place(relx=0.45,rely=0.45, relwidth=0.05, relheight=0.05)
+
+state_window = tk.Label(window, text = News , width=30,  bg = 'white')
+state_window.place(relx=0.52,rely=0.45, relheight=0.05)
+
+button1 = tk.Button(window, text = "Submit", width = 25,  fg='red', font=("Helvetica",12), command = threading) 
+button1.place(relx=0.325,rely=0.52)
+
+button2 = tk.Button(window, text = "Clear", width = 25,  fg='red', font=("Helvetica",12), command = clr) 
+button2.place(relx=0.52,rely=0.52)
+
+lbl4 = tk.Label(window, text = 'The News is: ', width = 25, fg='green', font=("Helvetica",12))
+lbl4.place(relx=0.42,rely=0.6)
+
+Ans = tk.Label(window, text = News , width=50,  bg = 'coral')
+Ans.place(relx=0.37,rely=0.65, relheight=0.05)
+
+button2 = tk.Button(window, text = "Click & Quit", width = 25,  fg='red', font=("Helvetica",12),command = window.destroy )
+button2.place(relx=0.42,rely=0.75)
+
+lbl6 = tk.Label(window, text = 'Fake News Zapper', width = 100, fg='grey', font=("Helvetica",8))
+lbl6.place(relx=0.28,rely=0.9)
+
+lbl7 = tk.Label(window, text = 'Developed by Sujoy Das, Shivam Gupta, Prastuti Koch', width = 100, fg='grey', font=("Helvetica",8))
+lbl7.place(relx=0.28,rely=0.93)
+
+window.mainloop()
